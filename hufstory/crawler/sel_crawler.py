@@ -71,25 +71,34 @@ urls = {
 }
 
 def getPosts(major, url):
-    try:
-        for i in range(46):
-            driver.get(url)
-            #예외처리 필요
-            #환경학과 "body > table > tbody > tr > td > table:nth-child(5) > tbody > tr"
-            #정통 "#board-container > div.list > form:nth-child(2) > table > tbody > tr"
-            #프랑스 "#con0_wrap0 > div.board-wrapper > div.absc.list.rs > table > tbody > tr"
-            #국스레 "#kboard-default-list > div.kboard-list > table > tbody > tr"
+    for i in range(46):
+        driver.get(url)
+        #예외처리 필요
+        #환경학과 "body > table > tbody > tr > td > table:nth-child(5) > tbody > tr"
+        #정통 "#board-container > div.list > form:nth-child(2) > table > tbody > tr"
+        #프랑스 "#con0_wrap0 > div.board-wrapper > div.absc.list.rs > table > tbody > tr"
+        #국스레 "#kboard-default-list > div.kboard-list > table > tbody > tr"
+        
+        #페이지 멀쩡한지 확인
+        try:
             posts = driver.find_elements_by_css_selector('#board-container > div.list > form:nth-child(2) > table > tbody > tr')
             print(i, end=", ")
-            with posts[i].find_elements_by_css_selector('#mini_eng')[0].text as id_num:
-                print(id_num, end=" : ")
+        except:
+            pass
+        
+        #공지 여부 확인
+        try:
+            print(posts[i].find_elements_by_css_selector('span')[0].text.strip(), end=" : ")
+        except:
+            pass
+        #게시글 존재여부 확인
+        try:
             print(posts[i].find_elements_by_css_selector('a')[0].text)
             posts[i].find_elements_by_css_selector('a')[0].click()
             print("url : " + driver.current_url)
-            
-    except:
-        print("ERROR")
-        pass
+        except:
+            print("End of Page")
+            return
 
 for major, url in urls.items():
     print("==================================================")

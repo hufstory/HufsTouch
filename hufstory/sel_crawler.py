@@ -1,9 +1,13 @@
 from selenium import webdriver
 from bs4 import BeautifulSoup as bs4
 import time
+import re, datetime
 
-driver = webdriver.Chrome('/Users/gobyeonghag/Documents/vscode_workspace/chromedriver')
-driver.implicitly_wait(3)
+import os
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "hufstory.settings")
+import django
+django.setup()
+from crawler.models import Post
 
 urls = {
     #자연대
@@ -79,6 +83,11 @@ def getPosts(major, url):
         #프랑스 "#con0_wrap0 > div.board-wrapper > div.absc.list.rs > table > tbody > tr"
         #국스레 "#kboard-default-list > div.kboard-list > table > tbody > tr"
         
+        post_num = -1
+        title = ""
+        post_url = ""
+        date = ""
+
         #페이지 멀쩡한지 확인
         try:
             posts = driver.find_elements_by_css_selector('#board-container > div.list > form:nth-child(2) > table > tbody > tr')
@@ -86,22 +95,37 @@ def getPosts(major, url):
         except:
             pass
         
-        #공지 여부 확인
+        #공지 여부 확인, 공지면 게시글 번호 출력
         try:
-            print(posts[i].find_elements_by_css_selector('span')[0].text.strip(), end=" : ")
+            post_num = posts[i].find_elements_by_css_selector('span')[0].text.strip()
         except:
             pass
+
         #게시글 존재여부 확인
         try:
-            print(posts[i].find_elements_by_css_selector('a')[0].text)
+            title = posts[i].find_elements_by_css_selector('a')[0].text.strip()
+            date = posts[i].find_elements_by_css_selector('td')[3].text.strip()
+            #date = posts[i].find_elements_by_css_selector('span')#.text.strip()
             posts[i].find_elements_by_css_selector('a')[0].click()
-            print("url : " + driver.current_url)
-        except:
+            print(date)
+            print(title)
+            post_url = driver.current_url
+            print("url : " + post_url)
+            if post_num != -1:
+                save=Post(major=major, post_num=post_num, title=title, url=post_url, pub_date=date)
+                save.save()
+        except Exception as e:
+            print(e)
             print("End of Page")
             return
+
+
+driver = webdriver.Chrome('/Users/gobyeonghag/Documents/vscode_workspace/chromedriver')
+driver.implicitly_wait(3)
 
 for major, url in urls.items():
     print("==================================================")
     print(major)
     getPosts(major, url)
+
 driver.close()

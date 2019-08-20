@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "538716338451",
+    "firebase_url": "https://hufstouch.firebaseio.com",
+    "project_id": "hufstouch",
+    "storage_bucket": "hufstouch.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:538716338451:android:fd7e4c7b4a651bdd",
+        "android_client_info": {
+          "package_name": "com.example.hufstouch"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "538716338451-l3foahvkpjbendbilvm4la7o6gmg7nb0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCR9QwKHX9HSOEBcxSnSARrIrgPkhE7iFM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "538716338451-l3foahvkpjbendbilvm4la7o6gmg7nb0.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "538716338451-71n0530gpobn3f934ij8g8fvk87fh68a.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "duri.hufstouch"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
